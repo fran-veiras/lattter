@@ -1,0 +1,8 @@
+.navbar {
+  background: rgba(241, 241, 241, 0.4);
+  backdrop-filter: blur(10px);
+}
+
+.slide {
+  transition: opacity 0.3s ease-in-out 0s, transform 0.3s ease-in-out 0s;
+}
