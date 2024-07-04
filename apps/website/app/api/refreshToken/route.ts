@@ -4,7 +4,6 @@ import supabaseServer from '../supabaseServer'
 export async function POST(request: NextRequest) {
     const refresh_token = request.headers.get('Authorization')
 
-    console.log('entrandoooo', refresh_token)
     try {
         if (refresh_token) {
             const supabase = supabaseServer()

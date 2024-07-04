@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import supabaseServer from '../../../../app/services/supabaseServer'
+import supabaseServer from '../../../../app/api/supabaseServer'
 import { Items } from './Items/Items.component'
 
 export const Bucket = async () => {

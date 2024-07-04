@@ -1,5 +1,5 @@
 'use server'
-import supabaseServer from './services/supabaseServer'
+import supabaseServer from './api/supabaseServer'
 
 export async function deleteUser(userId: number) {
     // Uncomment this to enable deletion

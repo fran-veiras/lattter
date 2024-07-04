@@ -12,10 +12,9 @@ const useCreateFolder = () => {
         try {
             if (name) {
                 await axios
-                    .post(
-                        `${process.env.NEXT_PUBLIC_URL}/services/folders/create`,
-                        { name: folderName },
-                    )
+                    .post(`${process.env.NEXT_PUBLIC_URL}/api/folders/create`, {
+                        name: folderName,
+                    })
                     .then(() => {
                         return toast({
                             title: 'Successfully created folder',

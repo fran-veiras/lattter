@@ -6,7 +6,7 @@ export const useLoginOutExt = () => {
         try {
             const resp = await sendToBackgroundViaRelay({
                 extensionId: process.env.NEXT_PUBLIC_URL?.includes('localhost')
-                    ? 'efpkbildjknbjokmhffdecjidokdecdl'
+                    ? 'nogbneadalakcefjdejijcdaaahljpah'
                     : 'mkofbeekindfpnocfdlfbfcppepipboj',
                 // @ts-ignore
                 name: 'ping',

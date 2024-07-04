@@ -2,7 +2,7 @@ import './globals.css'
 
 import { Analytics } from '@vercel/analytics/react'
 import { Provider } from 'modules/components/provider'
-import supabaseServer from './services/supabaseServer'
+import supabaseServer from '@/api/supabaseServer'
 
 export const metadata = {
     title: 'Lattter — your research copilot',

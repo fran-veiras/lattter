@@ -1,7 +1,7 @@
 import { NavBar } from 'modules/dashboard/navbar/NavBar'
 import '../globals.css'
 import { Analytics } from '@vercel/analytics/react'
-import supabaseServer from '@/services/supabaseServer'
+import supabaseServer from '@/api/supabaseServer'
 
 export const metadata = {
     title: 'Lattter — your research copilot',
