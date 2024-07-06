@@ -21,7 +21,7 @@ export const useLoginInExt = ({
             const resp = await sendToBackgroundViaRelay({
                 extensionId: process.env.NEXT_PUBLIC_URL?.includes('localhost')
                     ? 'nogbneadalakcefjdejijcdaaahljpah'
-                    : 'mkofbeekindfpnocfdlfbfcppepipboj',
+                    : 'feikcccicoogbafccdjmgdkffhimekek',
                 // @ts-ignore
                 name: 'ping',
                 body: userData,
