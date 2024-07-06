@@ -4,6 +4,7 @@ import { categorization } from './categorization/categorizationAi'
 import { tweetCategories } from './categorization/categories'
 import { createItem } from '@/lib/zod/schemas/items'
 import { LattterApiError } from '@/api/errors'
+import { error } from 'console'
 
 export async function POST(request: NextRequest) {
     const requestBodyText = await request.text()
@@ -25,11 +26,36 @@ export async function POST(request: NextRequest) {
             return new Response('Unauthorized', { status: 401 })
         }
 
-        const { data: folderId, error: folderError } = await supabase
+        let folderId
+
+        const { data: folder } = await supabase
             .from('folders')
-            .upsert({ name: item.folderName, user_id: user.id })
-            .select('id')
-            .single()
+            .select()
+            .eq('name', item.folderName)
+            .eq('user_id', user.id)
+
+        if (folder?.[0]?.id) {
+            folderId = folder?.[0]?.id
+        } else {
+            const { data, error } = await supabase
+                .from('folders')
+                .insert([
+                    {
+                        name: item.folderName,
+                        user_id: user.id,
+                    },
+                ])
+                .select('id')
+
+            if (error) {
+                throw new LattterApiError({
+                    code: error.code,
+                    message: error.message,
+                })
+            }
+
+            folderId = data[0].id
+        }
 
         const categories = await categorization(item?.content)
 
@@ -47,26 +73,22 @@ export async function POST(request: NextRequest) {
             type: item.type,
         })
 
-        const { data, error } = await supabase
+        const { data } = await supabase
             .from('items')
             .select()
             .eq('user_id', user?.id)
             .eq('link', item.link)
             .single()
 
-        if (error) {
-            throw new LattterApiError({
-                code: error.code,
-                message: error.message,
-            })
-        }
-
         if (!data) {
             const { error } = await supabase.from('items').insert([itemData])
 
             if (error) {
                 console.error('Error data', error.message)
-                return new Response('Server error', { status: 500 })
+                throw new LattterApiError({
+                    code: error.code,
+                    message: error.message,
+                })
             }
         }
 
