@@ -1,13 +1,13 @@
 {
   "name": "lattter-extension",
   "displayName": "Lattter — Your AI cross-platform bookmark",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "lattter co-pilot",
   "author": "fveiras",
   "packageManager": "pnpm@8.15.1",
   "scripts": {
     "dev": "plasmo dev",
-    "build": "plasmo build --no-hmr",
+    "build": "plasmo build --no-hmr --zip",
     "package": "plasmo package"
   },
   "dependencies": {

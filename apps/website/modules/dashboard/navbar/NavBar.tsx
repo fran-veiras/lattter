@@ -37,7 +37,7 @@ export const NavBar = ({ userDetails }: { userDetails: any }) => {
 
     return (
         <nav className="bg-white shadow sticky left-0 top-0 z-30 w-full">
-            <div className="w-full px-4 md:px-6">
+            <div className="w-11/12 xl:w-4/5 2xl:w-3/5 mx-auto px-2">
                 <div className="flex h-14">
                     <div className="flex-[1] flex items-center gap-4">
                         <div className="flex-shrink-0 flex items-center">

@@ -16,6 +16,7 @@
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-switch": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",
     "@radix-ui/react-toast": "^1.1.5",
     "@radix-ui/react-tooltip": "^1.0.7",
@@ -34,6 +35,7 @@
     "cmdk": "^1.0.0",
     "drizzle-kit": "^0.21.1",
     "drizzle-orm": "^0.30.10",
+    "framer-motion": "^11.2.13",
     "fuse.js": "^7.0.0",
     "lucide-react": "^0.390.0",
     "moment": "^2.30.1",
@@ -55,9 +57,9 @@
     "zod-openapi": "^2.12.0"
   },
   "devDependencies": {
-    "typescript": "5.3.3",
     "@types/chrome": "^0.0.268",
     "supabase": "^1.136.3",
-    "turbo": "^2.0.6"
+    "turbo": "^2.0.6",
+    "typescript": "5.3.3"
   }
 }
