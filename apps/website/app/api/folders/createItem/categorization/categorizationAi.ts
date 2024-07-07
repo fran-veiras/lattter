@@ -1,5 +1,5 @@
 import OpenAI from 'openai'
-import { tweetCategories } from './categories'
+import { itemCategories } from './categories'
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
@@ -10,7 +10,7 @@ export async function categorization(content: string) {
         {
             role: 'system',
             content: `You are an assistant who selects categories for a tweet, post, or quote. You cannot invent other categories. Here are
-            available categories: ${tweetCategories}.
+            available categories: ${itemCategories}.
 Here is an example output Javascript Array, Not string:
 ['Business', 'Technology', 'Startups']`,
         },

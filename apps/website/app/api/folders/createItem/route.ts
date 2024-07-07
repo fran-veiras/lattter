@@ -1,7 +1,7 @@
 import type { NextRequest } from 'next/server'
 import supabaseServer from '../../supabaseServer'
 import { categorization } from './categorization/categorizationAi'
-import { tweetCategories } from './categorization/categories'
+import { itemCategories } from './categorization/categories'
 import { createItem } from '@/lib/zod/schemas/items'
 import { LattterApiError } from '@/api/errors'
 import { error } from 'console'
@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
             user_id: user?.id,
             content: [item?.content],
             category: category.filter((cat: string) =>
-                tweetCategories.includes(cat),
+                itemCategories.includes(cat),
             ),
             type: item.type,
         })
@@ -130,7 +130,7 @@ export async function POST(request: NextRequest) {
                         console.log('Category times incremented successfully')
                     }
                 } else {
-                    if (tweetCategories.includes(categoryData.category)) {
+                    if (itemCategories.includes(categoryData.category)) {
                         const { error: insertError, data } = await supabase
                             .from('categories')
                             .insert([categoryData])
