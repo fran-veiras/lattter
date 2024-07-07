@@ -129,7 +129,7 @@ export const BucketItem = ({ item }: { item: IItem }) => {
                     <CardDescription className="break-words">
                         {item.type === 'QUOTE' ? (
                             <QuoteBlock content={item.content} />
-                        ) : item?.content && item?.content?.length > 1 ? (
+                        ) : item?.content && item?.content?.[0].length > 1 ? (
                             item.content
                         ) : (
                             item.link

@@ -71,7 +71,7 @@ export const SuggestedItem = ({ item }: { item: IFeedItem }) => {
                 >
                     <div className="flex flex-row justify-between items-center w-full !m-0">
                         <div className="flex flex-row gap-2 items-center">
-                            {item.categories.map(category => (
+                            {item?.categories?.map(category => (
                                 <div className="p-1 bg-black !m-0 rounded-md">
                                     <p className="text-xs text-white">
                                         {category}

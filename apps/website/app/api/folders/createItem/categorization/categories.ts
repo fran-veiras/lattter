@@ -169,4 +169,5 @@ export const itemCategories = [
     'Virology',
     'Water Resources',
     'Web Analytics',
+    'None',
 ]
