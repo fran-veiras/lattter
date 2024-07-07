@@ -26,14 +26,14 @@ export const SuggestedItem = ({ item }: { item: IFeedItem }) => {
                 'relative flex flex-row gap-4 flex-grow !border-none !bg-transparent !shadow-none transition-all cursor-pointer',
             )}
         >
-            <div className="p-2">
+            {/* <div className="p-2">
                 {item.url?.includes('x.com') ||
                 item.url?.includes('twitter.com') ? (
                     <XIcon />
                 ) : (
                     <Logo />
                 )}
-            </div>
+            </div> */}
             <div className="flex flex-col gap-2 bg-white border relative overflow-hidden border-gray-200 rounded-lg p-2">
                 {selected && (
                     <div className="absolute left-0 top-0 z-10 w-full h-full items-center justify-center p-4">

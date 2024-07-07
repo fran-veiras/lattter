@@ -1,6 +1,6 @@
 'use client'
 import Fuse, { FuseResult } from 'fuse.js'
-import { IItem } from 'modules/models/folder.interface'
+import { IItem, ITags } from 'modules/models/folder.interface'
 import React, { Suspense, useEffect, useState } from 'react'
 import { BucketItem } from './BucketItem.component'
 import { Browser } from '../Browser/Browser.component'
@@ -8,6 +8,7 @@ import { IFeedItem } from 'modules/models/feed.interface'
 import { SuggestedItem } from './SuggestedItem.component'
 import { useSearchParams } from 'next/navigation'
 import Loading from 'app/(dashboard)/dashboard/loading'
+import { Separator } from '@/components/ui/separator'
 
 interface IFilteredItems {
     bucket: FuseResult<IItem>[]
@@ -17,9 +18,11 @@ interface IFilteredItems {
 export const Items = ({
     items,
     feed,
+    tags,
 }: {
     items: IItem[] | null
     feed: IFeedItem[] | null
+    tags: ITags[] | null
 }) => {
     const [filteredItems, setFilteredItems] = useState<IFilteredItems>({
         bucket: [],
@@ -108,9 +111,15 @@ export const Items = ({
     const initialItems = getInitialItems()
 
     return (
-        <div className=" relative">
+        <div className="relative flex flex-row gap-4 w-full m-0">
+            <Browser
+                tags={tags}
+                setInputValue={setInputValue}
+                filters={filters}
+                setFilters={setFilters}
+            />
             <Suspense fallback={<Loading />}>
-                <div className="flex flex-col gap-2 max-w-3xl m-auto flex-wrap px-4 mb-40">
+                <div className="flex flex-[3] flex-col h-fit gap-2 mx-auto">
                     {!inputValue &&
                         initialItems.feedItem &&
                         initialItems.feedItem.map(item => (
@@ -126,21 +135,18 @@ export const Items = ({
                         filteredItems.bucket.map(({ item }) => (
                             <BucketItem key={item.id} item={item} />
                         ))}
-
                     {filteredItems &&
                         inputValue &&
-                        filteredItems?.suggested &&
-                        filteredItems?.suggested?.map(({ item }) => (
-                            <SuggestedItem key={item.id} item={item} />
-                        ))}
+                        filteredItems?.suggested && (
+                            <>
+                                <p className="mt-4">Based on your interests</p>
+                                {filteredItems?.suggested?.map(({ item }) => (
+                                    <SuggestedItem key={item.id} item={item} />
+                                ))}
+                            </>
+                        )}
                 </div>
             </Suspense>
-            <Browser
-                defaultSearchValue={defaultSearchValue}
-                setInputValue={setInputValue}
-                filters={filters}
-                setFilters={setFilters}
-            />
             <div className="fixed bottom-0 w-full z-10 h-24 bg-gradient-to-t from-background to-transparent" />
         </div>
     )

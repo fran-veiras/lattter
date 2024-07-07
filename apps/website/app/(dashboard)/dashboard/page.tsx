@@ -1,10 +1,59 @@
-import { Bucket } from 'modules/dashboard/dashboard/bucket/Bucket.component'
+import supabaseServer from '@/api/supabaseServer'
+import { Items } from 'modules/dashboard/dashboard/bucket/Items/Items.component'
 
-export default async function Dashboard() {
+interface IDashboardParams {
+    searchParams: {
+        tag?: string
+    }
+}
+
+export default async function Dashboard({ searchParams }: IDashboardParams) {
+    const supabase = supabaseServer()
+    const {
+        data: { user },
+    } = await supabase.auth.getUser()
+
+    console.log(searchParams)
+
+    const { data: userDetails } = await supabase
+        .from('user_details')
+        .select()
+        .eq('user_id', user?.id)
+        .single()
+
+    let query = supabase
+        .from('items')
+        .select('*')
+        .eq('user_id', user?.id)
+        .order('created_at', { ascending: false })
+
+    if (searchParams.tag) {
+        query.contains('category', [searchParams.tag])
+    }
+
+    if (!userDetails.show_archived_items) {
+        query = query.eq('finished', false)
+    }
+
+    const { data: items, error } = await query
+
+    const { data: feed } = await supabase
+        .from('feed')
+        .select('*')
+        .eq('user_id', user?.id)
+        .order('score', { ascending: false })
+        .limit(10)
+
+    const { data: tags } = await supabase
+        .from('categories')
+        .select('*')
+        .eq('user_id', user?.id)
+        .order('times', { ascending: false })
+
     return (
         <main className="flex flex-row flex-1 p-4 gap-4 relative">
-            <div className="flex flex-[2] gap-4 flex-col">
-                <Bucket />
+            <div className="mx-auto my-10 w-11/12 xl:w-4/5 2xl:w-3/5">
+                <Items items={items} feed={feed} tags={tags} />
             </div>
         </main>
     )

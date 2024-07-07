@@ -1,45 +1,105 @@
 'use client'
 
-import { Textarea } from '@/components/ui/textarea'
-import { Dispatch, SetStateAction, useState } from 'react'
-import { Filter } from './Filter.component'
+import { Dispatch, SetStateAction } from 'react'
+import { Input } from '@/components/ui/input'
+import { Card, CardHeader } from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
+import { LinkFilter } from './LinkFilter.component'
+import { ITags } from 'modules/models/folder.interface'
+import { Switch } from '@/components/ui/switch'
+import { showArchivedItems } from 'app/actions'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+
+const defaultFilters = [
+    {
+        value: 'hide_suggestion',
+        label: 'Hide suggestions',
+    },
+    {
+        value: 'hide_quotes',
+        label: 'Hide quotes',
+    },
+    {
+        value: 'show_archived',
+        label: 'Show archived items',
+    },
+]
 
 export const Browser = ({
     filters,
     setFilters,
     setInputValue,
-    defaultSearchValue,
+    tags,
 }: {
     filters: string[]
     setFilters: Dispatch<SetStateAction<string[]>>
     setInputValue: Dispatch<SetStateAction<string | false>>
-    defaultSearchValue: string | null
+    tags: ITags[] | null
 }) => {
+    const route = useRouter()
+    useEffect(() => {
+        localStorage.setItem('filters', JSON.stringify(filters))
+    }, [filters])
+
     return (
-        <div className="fixed z-20 inset-x-0 bottom-0 w-full duration-300 ease-in-out animate-in dark:from-background/10 dark:from-10% dark:to-background/80 peer-[[data-state=open]]:group-[]:lg:pl-[250px] peer-[[data-state=open]]:group-[]:xl:pl-[300px]">
-            <div className="mx-auto max-w-2xl px-4">
-                <div className="border shadow-xl bg-background rounded-lg sm:border">
-                    <div className="relative flex flex-col w-full overflow-hidden grow bg-background sm:rounded-md px-4 pb-4">
-                        <Filter
-                            filters={filters}
-                            setFilters={setFilters}
-                            defaultSearchValue={defaultSearchValue}
-                        />
-                        <Textarea
-                            tabIndex={0}
-                            placeholder="Search..."
-                            className="min-h-[60px] !ring-0  w-full resize-none bg-transparent px-4 py-[1.3rem] focus-within:!outline-none sm:text-sm"
-                            autoFocus
-                            spellCheck={false}
-                            autoComplete="off"
-                            autoCorrect="off"
-                            name="message"
-                            rows={1}
-                            onChange={e => setInputValue(e.target.value)}
+        <Card className="flex-[1] h-fit p-4 flex flex-col gap-2">
+            <CardHeader className="!p-0">
+                <p>Filter items</p>
+            </CardHeader>
+            <div className="relative flex flex-col w-full overflow-hidden sm:rounded-md">
+                <Input
+                    placeholder="Search..."
+                    className="focus:outline-none !ring-0 focus:border-black bg-white"
+                    autoFocus
+                    spellCheck={false}
+                    autoComplete="off"
+                    autoCorrect="off"
+                    onChange={e => setInputValue(e.target.value)}
+                />
+            </div>
+            <Separator className="my-2" />
+            <div>
+                <LinkFilter tags={tags} />
+            </div>
+            <Separator className="my-2" />
+            <div className="flex flex-col gap-6">
+                {defaultFilters.map(filter => (
+                    <div
+                        onClick={async () => {
+                            if (!filters.includes(filter.value)) {
+                                setFilters([...filters, filter.value])
+                                if (filter.value === 'show_archived') {
+                                    const archive =
+                                        await showArchivedItems(true)
+                                    if (archive) {
+                                        route.refresh()
+                                    }
+                                }
+                            } else {
+                                const removeValue = filters.filter(
+                                    val => val !== filter.value,
+                                )
+                                setFilters(removeValue)
+                                if (filter.value === 'show_archived') {
+                                    const archive =
+                                        await showArchivedItems(false)
+                                    if (archive) {
+                                        route.refresh()
+                                    }
+                                }
+                            }
+                        }}
+                        key={filter.value}
+                        className="flex flex-row justify-between items-center"
+                    >
+                        <p>{filter.label}</p>
+                        <Switch
+                            checked={filters && filters.includes(filter.value)}
                         />
                     </div>
-                </div>
+                ))}
             </div>
-        </div>
+        </Card>
     )
 }

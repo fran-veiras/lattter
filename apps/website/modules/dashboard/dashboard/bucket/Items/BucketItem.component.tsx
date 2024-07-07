@@ -10,6 +10,7 @@ import {
     Archive,
     CheckCheck,
     Eye,
+    Globe,
     Quote,
     SquareArrowOutUpRight,
 } from 'lucide-react'
@@ -39,8 +40,8 @@ export const BucketItem = ({ item }: { item: IItem }) => {
 
     const itemIcon = {
         POST: <XIcon />,
-        PAGE: <LogoComponent />,
-        QUOTE: <Quote />,
+        PAGE: <Globe width={18} height={18} />,
+        QUOTE: <Quote width={18} height={18} />,
     }
 
     return (
@@ -52,7 +53,6 @@ export const BucketItem = ({ item }: { item: IItem }) => {
                 'relative flex flex-row gap-4 flex-grow !border-none !bg-transparent !shadow-none transition-all cursor-pointer',
             )}
         >
-            <div className="p-2">{itemIcon[item.type]}</div>
             <div className="flex flex-col gap-2 bg-white border relative overflow-hidden border-gray-200 min-w-[80%] rounded-lg p-2">
                 {selected && (
                     <div className="absolute left-0 top-0 z-10 w-full h-full items-center justify-center p-4">
@@ -107,7 +107,8 @@ export const BucketItem = ({ item }: { item: IItem }) => {
                         },
                     )}
                 >
-                    <div className="flex flex-row gap-2 !m-0">
+                    <div className="flex flex-row gap-2 !m-0 items-center">
+                        <div>{itemIcon[item.type]}</div>
                         {item.category.map(category => (
                             <div className="p-1 bg-green-200 !m-0 rounded-md">
                                 <p className="text-xs">{category}</p>
@@ -128,7 +129,7 @@ export const BucketItem = ({ item }: { item: IItem }) => {
                     <CardDescription className="break-words">
                         {item.type === 'QUOTE' ? (
                             <QuoteBlock content={item.content} />
-                        ) : item?.content && item?.content?.length > 0 ? (
+                        ) : item?.content && item?.content?.length > 1 ? (
                             item.content
                         ) : (
                             item.link
