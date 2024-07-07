@@ -9,6 +9,8 @@ import { SuggestedItem } from './SuggestedItem.component'
 import { useSearchParams } from 'next/navigation'
 import Loading from 'app/(dashboard)/dashboard/loading'
 import { Separator } from '@/components/ui/separator'
+import { Card } from '@/components/ui/card'
+import NotFound from 'public/icons/NotFound'
 
 interface IFilteredItems {
     bucket: FuseResult<IItem>[]
@@ -145,6 +147,14 @@ export const Items = ({
                                 ))}
                             </>
                         )}
+                    {!items?.length && (
+                        <Card className="w-full h-[420px] p-4 flex items-center justify-center flex-col gap-8">
+                            <h1 className="text-lg font-bold">
+                                No items found.
+                            </h1>
+                            <NotFound />
+                        </Card>
+                    )}
                 </div>
             </Suspense>
             <div className="fixed bottom-0 w-full z-10 h-24 bg-gradient-to-t from-background to-transparent" />
