@@ -6,6 +6,7 @@ import Loading from './loading'
 interface IDashboardParams {
     searchParams: {
         tag?: string
+        domain?: string
     }
 }
 
@@ -14,8 +15,6 @@ export default async function Dashboard({ searchParams }: IDashboardParams) {
     const {
         data: { user },
     } = await supabase.auth.getUser()
-
-    console.log(searchParams)
 
     const { data: userDetails } = await supabase
         .from('user_details')
@@ -32,6 +31,16 @@ export default async function Dashboard({ searchParams }: IDashboardParams) {
     if (searchParams.tag && searchParams.tag.length > 0) {
         const tags = searchParams.tag.split(',')
         const orFilter = tags.map(tag => `category.cs.{${tag}}`).join(',')
+
+        query = query.or(orFilter)
+    }
+
+    if (searchParams.domain && searchParams.domain.length > 0) {
+        const domains = searchParams.domain.split(',')
+        console.log('aaa', domains)
+        const orFilter = domains
+            .map(domain => `link.ilike.%${domain}%`)
+            .join(',')
 
         query = query.or(orFilter)
     }
@@ -55,11 +64,21 @@ export default async function Dashboard({ searchParams }: IDashboardParams) {
         .eq('user_id', user?.id)
         .order('times', { ascending: false })
 
+    const { data: folders } = await supabase
+        .from('folders')
+        .select('*')
+        .eq('user_id', user?.id)
+
     return (
         <main className="flex flex-row flex-1 p-4 gap-4 relative">
             <Suspense fallback={<Loading />} key={searchParams.tag}>
                 <div className="mx-auto my-10 w-11/12 xl:w-4/5 2xl:w-3/5">
-                    <Items items={items} feed={feed} tags={tags} />
+                    <Items
+                        items={items}
+                        feed={feed}
+                        tags={tags}
+                        folders={folders}
+                    />
                 </div>
             </Suspense>
         </main>

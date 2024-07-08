@@ -5,11 +5,11 @@ import { useCallback } from 'react'
 export const useSetSearchParams = () => {
     const searchParams = useSearchParams()
     const pathname = usePathname()
-    const selectedTags =
-        searchParams?.get('tag')?.split(',')?.filter(Boolean) ?? []
 
     const createQueryString = useCallback(
         (name: string, value: string) => {
+            const selectedTags =
+                searchParams?.get(name)?.split(',')?.filter(Boolean) ?? []
             const params = new URLSearchParams(searchParams.toString())
 
             if (selectedTags.includes(value)) {
