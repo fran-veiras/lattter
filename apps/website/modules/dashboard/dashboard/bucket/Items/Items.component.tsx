@@ -1,14 +1,11 @@
 'use client'
 import Fuse, { FuseResult } from 'fuse.js'
 import { IItem, ITags } from 'modules/models/folder.interface'
-import React, { Suspense, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BucketItem } from './BucketItem.component'
 import { Browser } from '../Browser/Browser.component'
 import { IFeedItem } from 'modules/models/feed.interface'
-import { SuggestedItem } from './SuggestedItem.component'
 import { useSearchParams } from 'next/navigation'
-import Loading from 'app/(dashboard)/dashboard/loading'
-import { Separator } from '@/components/ui/separator'
 import { Card } from '@/components/ui/card'
 import NotFound from 'public/icons/NotFound'
 
@@ -31,6 +28,7 @@ export const Items = ({
         suggested: [],
     })
     const defaultSearchValue = useSearchParams().get('search')
+    const searchParams = useSearchParams()
     const [inputValue, setInputValue] = useState<false | string>(false)
     const getInitialFilters =
         typeof window !== 'undefined' && localStorage.getItem('filters')
@@ -120,24 +118,23 @@ export const Items = ({
                 filters={filters}
                 setFilters={setFilters}
             />
-            <Suspense fallback={<Loading />}>
-                <div className="flex flex-[3] flex-col h-fit gap-2 mx-auto">
-                    {!inputValue &&
+            <div className="flex flex-[3] flex-col h-fit gap-2 mx-auto">
+                {/* {!inputValue &&
                         initialItems.feedItem &&
                         initialItems.feedItem.map(item => (
                             <SuggestedItem key={item.id} item={item} />
-                        ))}
-                    {!inputValue &&
-                        initialItems.bucketItem &&
-                        initialItems.bucketItem.map(item => (
-                            <BucketItem key={item.id} item={item} />
-                        ))}
-                    {filteredItems &&
-                        inputValue &&
-                        filteredItems.bucket.map(({ item }) => (
-                            <BucketItem key={item.id} item={item} />
-                        ))}
-                    {filteredItems &&
+                        ))} */}
+                {!inputValue &&
+                    initialItems.bucketItem &&
+                    initialItems.bucketItem.map(item => (
+                        <BucketItem key={item.id} item={item} />
+                    ))}
+                {filteredItems &&
+                    inputValue &&
+                    filteredItems.bucket.map(({ item }) => (
+                        <BucketItem key={item.id} item={item} />
+                    ))}
+                {/* {filteredItems &&
                         inputValue &&
                         filteredItems?.suggested && (
                             <>
@@ -146,17 +143,14 @@ export const Items = ({
                                     <SuggestedItem key={item.id} item={item} />
                                 ))}
                             </>
-                        )}
-                    {!items?.length && (
-                        <Card className="w-full h-[420px] p-4 flex items-center justify-center flex-col gap-8">
-                            <h1 className="text-lg font-bold">
-                                No items found.
-                            </h1>
-                            <NotFound />
-                        </Card>
-                    )}
-                </div>
-            </Suspense>
+                        )} */}
+                {!items?.length && (
+                    <Card className="w-full h-[420px] p-4 flex items-center justify-center flex-col gap-8">
+                        <h1 className="text-lg font-bold">No items found.</h1>
+                        <NotFound />
+                    </Card>
+                )}
+            </div>
             <div className="fixed bottom-0 w-full z-10 h-24 bg-gradient-to-t from-background to-transparent" />
         </div>
     )

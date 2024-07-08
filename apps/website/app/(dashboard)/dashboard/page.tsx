@@ -1,5 +1,7 @@
 import supabaseServer from '@/api/supabaseServer'
 import { Items } from 'modules/dashboard/dashboard/bucket/Items/Items.component'
+import { Suspense } from 'react'
+import Loading from './loading'
 
 interface IDashboardParams {
     searchParams: {
@@ -27,8 +29,11 @@ export default async function Dashboard({ searchParams }: IDashboardParams) {
         .eq('user_id', user?.id)
         .order('created_at', { ascending: false })
 
-    if (searchParams.tag) {
-        query.contains('category', [searchParams.tag])
+    if (searchParams.tag && searchParams.tag.length > 0) {
+        const tags = searchParams.tag.split(',')
+        const orFilter = tags.map(tag => `category.cs.{${tag}}`).join(',')
+
+        query = query.or(orFilter)
     }
 
     if (!userDetails.show_archived_items) {
@@ -52,9 +57,11 @@ export default async function Dashboard({ searchParams }: IDashboardParams) {
 
     return (
         <main className="flex flex-row flex-1 p-4 gap-4 relative">
-            <div className="mx-auto my-10 w-11/12 xl:w-4/5 2xl:w-3/5">
-                <Items items={items} feed={feed} tags={tags} />
-            </div>
+            <Suspense fallback={<Loading />} key={searchParams.tag}>
+                <div className="mx-auto my-10 w-11/12 xl:w-4/5 2xl:w-3/5">
+                    <Items items={items} feed={feed} tags={tags} />
+                </div>
+            </Suspense>
         </main>
     )
 }

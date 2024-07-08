@@ -1,30 +1,23 @@
 import { ChevronRight } from 'lucide-react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useState, useCallback } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ITags } from 'modules/models/folder.interface'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { useSetSearchParams } from '../../hooks/use-set-search-params'
 
 export const LinkFilter = ({ tags }: { tags: ITags[] | null }) => {
     const searchParams = useSearchParams()
-    const router = useRouter()
-    const pathname = usePathname()
+    const selectedTags =
+        searchParams?.get('tag')?.split(',')?.filter(Boolean) ?? []
+    const createQueryString = useSetSearchParams()
 
-    const createQueryString = useCallback(
-        (name: string, value: string) => {
-            const params = new URLSearchParams(searchParams.toString())
-            params.set(name, value)
-
-            return params.toString()
-        },
-        [searchParams],
+    const [collapsed, setCollapsed] = useState(
+        selectedTags.length ? false : true,
     )
-
-    const [collapsed, setCollapsed] = useState(true)
+    const route = useRouter()
     const [showMore, setShowMore] = useState(false)
-
-    console.log(tags)
 
     return (
         <fieldset className="overflow-hidden">
@@ -47,50 +40,39 @@ export const LinkFilter = ({ tags }: { tags: ITags[] | null }) => {
                         {tags ? (
                             tags
                                 .slice(0, showMore ? 20 : 5)
-                                .map((tag: ITags) => (
-                                    <div
-                                        key={tag.id}
-                                        onClick={() => {
-                                            router.push(
-                                                pathname +
-                                                    '?' +
-                                                    createQueryString(
-                                                        'tag',
-                                                        tag.category,
-                                                    ),
-                                            )
-                                        }}
-                                        className="group relative flex cursor-pointer items-center space-x-3 rounded-md bg-gray-50 transition-all hover:bg-gray-100"
-                                    >
-                                        <Input
-                                            id={tag.id.toString()}
-                                            name={tag.id.toString()}
-                                            checked={
-                                                searchParams?.get('tag') ===
-                                                tag.category
-                                            }
-                                            onChange={() => {
-                                                router.push(
-                                                    pathname +
-                                                        '?' +
+                                .map((tag: ITags) => {
+                                    return (
+                                        <div
+                                            key={tag.id}
+                                            className="group relative flex cursor-pointer items-center space-x-3 rounded-md bg-gray-50 transition-all hover:bg-gray-100"
+                                        >
+                                            <Input
+                                                id={tag.id.toString()}
+                                                name={tag.id.toString()}
+                                                checked={selectedTags.includes(
+                                                    tag.category,
+                                                )}
+                                                onChange={() => {
+                                                    const url =
                                                         createQueryString(
                                                             'tag',
                                                             tag.category,
-                                                        ),
-                                                )
-                                            }}
-                                            type="checkbox"
-                                            className="ml-3 h-4 w-4 cursor-pointer rounded-full border-gray-300 text-black focus:outline-none focus:ring-0"
-                                        />
-                                        <label
-                                            htmlFor={tag.id.toString()}
-                                            className="flex w-full cursor-pointer items-center justify-between px-3 py-2 pl-0 text-sm font-medium text-gray-700"
-                                        >
-                                            <p>{tag.category}</p>
-                                            <p>{tag.times}</p>
-                                        </label>
-                                    </div>
-                                ))
+                                                        )
+                                                    route.push(url)
+                                                }}
+                                                type="checkbox"
+                                                className="ml-3 h-4 w-4 cursor-pointer rounded-full border-gray-300 text-black focus:outline-none focus:ring-0"
+                                            />
+                                            <label
+                                                htmlFor={tag.id.toString()}
+                                                className="flex w-full cursor-pointer items-center justify-between px-3 py-2 pl-0 text-sm font-medium text-gray-700"
+                                            >
+                                                <p>{tag.category}</p>
+                                                <p>{tag.times}</p>
+                                            </label>
+                                        </div>
+                                    )
+                                })
                         ) : (
                             <p>No tags yet</p>
                         )}
