@@ -1,6 +1,6 @@
 'use client'
 import Fuse, { FuseResult } from 'fuse.js'
-import { IItem, ITags } from 'modules/models/folder.interface'
+import { IFolder, IItem, ITags } from 'modules/models/folder.interface'
 import React, { useEffect, useState } from 'react'
 import { BucketItem } from './BucketItem.component'
 import { Browser } from '../Browser/Browser.component'
@@ -18,10 +18,12 @@ export const Items = ({
     items,
     feed,
     tags,
+    folders,
 }: {
     items: IItem[] | null
     feed: IFeedItem[] | null
     tags: ITags[] | null
+    folders: IFolder[] | null
 }) => {
     const [filteredItems, setFilteredItems] = useState<IFilteredItems>({
         bucket: [],
@@ -109,6 +111,7 @@ export const Items = ({
     }
 
     const initialItems = getInitialItems()
+    const domains = folders?.map(item => `${item.name}.com`)
 
     return (
         <div className="relative flex flex-row gap-4 w-full m-0">
@@ -117,6 +120,7 @@ export const Items = ({
                 setInputValue={setInputValue}
                 filters={filters}
                 setFilters={setFilters}
+                domains={domains}
             />
             <div className="flex flex-[3] flex-col h-fit gap-2 mx-auto">
                 {/* {!inputValue &&

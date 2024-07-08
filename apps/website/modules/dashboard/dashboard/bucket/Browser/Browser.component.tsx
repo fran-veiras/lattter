@@ -33,11 +33,13 @@ export const Browser = ({
     setFilters,
     setInputValue,
     tags,
+    domains,
 }: {
     filters: string[]
     setFilters: Dispatch<SetStateAction<string[]>>
     setInputValue: Dispatch<SetStateAction<string | false>>
     tags: ITags[] | null
+    domains: string[] | undefined
 }) => {
     const route = useRouter()
     const searchParams = useSearchParams()
@@ -47,7 +49,7 @@ export const Browser = ({
         localStorage.setItem('filters', JSON.stringify(filters))
     }, [filters])
     const showClearButton = useMemo(() => {
-        return ['tag'].some(param => searchParams?.has(param))
+        return ['tag', 'domain'].some(param => searchParams?.has(param))
     }, [searchParams])
 
     return (
@@ -81,7 +83,11 @@ export const Browser = ({
             </div>
             <Separator className="my-2" />
             <div>
-                <LinkFilter tags={tags} />
+                <LinkFilter domains={domains} type="domain" />
+            </div>
+            <Separator className="my-2" />
+            <div>
+                <LinkFilter tags={tags} type="tag" />
             </div>
             <Separator className="my-2" />
             <div className="flex flex-col gap-6">
