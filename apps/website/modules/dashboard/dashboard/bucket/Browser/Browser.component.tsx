@@ -8,8 +8,10 @@ import { LinkFilter } from './LinkFilter.component'
 import { ITags } from 'modules/models/folder.interface'
 import { Switch } from '@/components/ui/switch'
 import { showArchivedItems } from 'app/actions'
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useEffect, useMemo } from 'react'
+import { Button } from '@/components/ui/button'
+import { CircleX } from 'lucide-react'
 
 const defaultFilters = [
     {
@@ -38,14 +40,33 @@ export const Browser = ({
     tags: ITags[] | null
 }) => {
     const route = useRouter()
+    const searchParams = useSearchParams()
+    const pathname = usePathname()
+
     useEffect(() => {
         localStorage.setItem('filters', JSON.stringify(filters))
     }, [filters])
+    const showClearButton = useMemo(() => {
+        return ['tag'].some(param => searchParams?.has(param))
+    }, [searchParams])
 
     return (
         <Card className="flex-[1] h-fit p-4 flex flex-col gap-2">
-            <CardHeader className="!p-0">
+            <CardHeader className="!p-0 flex flex-row items-center justify-between">
                 <p>Filter items</p>
+                {showClearButton && (
+                    <Button
+                        onClick={() => route.push(pathname)}
+                        className="bg-transparent transition-all hover:bg-transparent hover:text-black hover:border-black !p-1 !h-fit text-gray-500 border border-gray-500"
+                    >
+                        <CircleX
+                            width={14}
+                            height={14}
+                            className="hover:text-black"
+                        />
+                        <p className="mx-1">Clear</p>
+                    </Button>
+                )}
             </CardHeader>
             <div className="relative flex flex-col w-full overflow-hidden sm:rounded-md">
                 <Input

@@ -1,11 +1,14 @@
 'use server'
 import supabaseServer from './api/supabaseServer'
+import { redirect } from 'next/navigation'
+import { revalidatePath } from 'next/cache'
 
 export async function deleteUser(userId: number) {
     // Uncomment this to enable deletion
     // await deleteUserById(userId);
     // revalidatePath('/');
 }
+
 export async function seenItem(id: number, seen: number) {
     'use server'
     const supabase = supabaseServer()
