@@ -10,7 +10,7 @@ interface IDashboardParams {
     }
 }
 
-export default async function Dashboard({ searchParams }: IDashboardParams) {
+export default async function Dashboard() {
     const supabase = supabaseServer()
     const {
         data: { user },
@@ -27,23 +27,6 @@ export default async function Dashboard({ searchParams }: IDashboardParams) {
         .select('*')
         .eq('user_id', user?.id)
         .order('created_at', { ascending: false })
-
-    if (searchParams.tag && searchParams.tag.length > 0) {
-        const tags = searchParams.tag.split(',')
-        const orFilter = tags.map(tag => `category.cs.{${tag}}`).join(',')
-
-        query = query.or(orFilter)
-    }
-
-    if (searchParams.domain && searchParams.domain.length > 0) {
-        const domains = searchParams.domain.split(',')
-        console.log('aaa', domains)
-        const orFilter = domains
-            .map(domain => `link.ilike.%${domain}%`)
-            .join(',')
-
-        query = query.or(orFilter)
-    }
 
     if (!userDetails.show_archived_items) {
         query = query.eq('finished', false)
@@ -71,7 +54,7 @@ export default async function Dashboard({ searchParams }: IDashboardParams) {
 
     return (
         <main className="flex flex-row flex-1 p-4 gap-4 relative">
-            <Suspense fallback={<Loading />} key={searchParams.tag}>
+            <Suspense fallback={<Loading />}>
                 <div className="mx-auto my-10 w-11/12 xl:w-4/5 2xl:w-3/5">
                     <Items
                         items={items}

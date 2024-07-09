@@ -1,13 +1,15 @@
 'use client'
 import Fuse, { FuseResult } from 'fuse.js'
 import { IFolder, IItem, ITags } from 'modules/models/folder.interface'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, Suspense } from 'react'
 import { BucketItem } from './BucketItem.component'
 import { Browser } from '../Browser/Browser.component'
 import { IFeedItem } from 'modules/models/feed.interface'
 import { useSearchParams } from 'next/navigation'
 import { Card } from '@/components/ui/card'
 import NotFound from 'public/icons/NotFound'
+import { UserDataContext } from '@/components/provider'
+import Loading, { LinksSkeleton } from 'app/(dashboard)/dashboard/loading'
 
 interface IFilteredItems {
     bucket: FuseResult<IItem>[]
@@ -29,21 +31,24 @@ export const Items = ({
         bucket: [],
         suggested: [],
     })
-    const defaultSearchValue = useSearchParams().get('search')
     const searchParams = useSearchParams()
+    const { tokens } = useContext(UserDataContext)
+    const defaultSearchValue = useSearchParams().get('search')
     const [inputValue, setInputValue] = useState<false | string>(false)
     const getInitialFilters =
         typeof window !== 'undefined' && localStorage.getItem('filters')
     const filtersParsed = getInitialFilters && JSON.parse(getInitialFilters)
-
+    const [itemsData, setItemsData] = useState(items)
     const [filters, setFilters] = useState<string[]>(filtersParsed ?? [])
+    const [isLoading, setIsLoading] = useState(false)
 
+    // need refactor
     useEffect(() => {
-        if (items && inputValue && inputValue.length) {
+        if (itemsData && inputValue && inputValue.length) {
             const itemsToSearch =
                 filters && filters?.includes('hide_quotes')
-                    ? items.filter(item => item.type !== 'QUOTE')
-                    : items
+                    ? itemsData.filter(item => item.type !== 'QUOTE')
+                    : itemsData
 
             const fuse = new Fuse(itemsToSearch, {
                 keys: ['content', 'link', 'category'],
@@ -75,11 +80,11 @@ export const Items = ({
 
             setFilteredItems({ bucket: filtererd, suggested: suggestedItems })
         }
-    }, [inputValue, items, filters])
+    }, [inputValue, itemsData, filters])
 
     function getInitialItems() {
         if (defaultSearchValue) {
-            const defaultItem = items?.filter(
+            const defaultItem = itemsData?.filter(
                 item => item.link === defaultSearchValue,
             )
 
@@ -87,9 +92,9 @@ export const Items = ({
         }
 
         const itemsToSearch =
-            items && filters && filters?.includes('hide_quotes')
-                ? items.filter(item => item.type !== 'QUOTE')
-                : items
+            itemsData && filters && filters?.includes('hide_quotes')
+                ? itemsData.filter(item => item.type !== 'QUOTE')
+                : itemsData
 
         const bucketItem =
             itemsToSearch &&
@@ -113,6 +118,26 @@ export const Items = ({
     const initialItems = getInitialItems()
     const domains = folders?.map(item => `${item.name}.com`)
 
+    useEffect(() => {
+        setIsLoading(true)
+        fetch(`/api/folders/getItemByFilter?${searchParams.toString()}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `${tokens.access_token}`,
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                setItemsData(data)
+                setIsLoading(false)
+            })
+            .catch(error => {
+                console.error('Error:', error)
+                setIsLoading(false)
+            })
+    }, [searchParams])
+
     return (
         <div className="relative flex flex-row gap-4 w-full m-0">
             <Browser
@@ -122,39 +147,30 @@ export const Items = ({
                 setFilters={setFilters}
                 domains={domains}
             />
-            <div className="flex flex-[3] flex-col h-fit gap-2 mx-auto">
-                {/* {!inputValue &&
-                        initialItems.feedItem &&
-                        initialItems.feedItem.map(item => (
-                            <SuggestedItem key={item.id} item={item} />
-                        ))} */}
-                {!inputValue &&
-                    initialItems.bucketItem &&
-                    initialItems.bucketItem.map(item => (
-                        <BucketItem key={item.id} item={item} />
-                    ))}
-                {filteredItems &&
-                    inputValue &&
-                    filteredItems.bucket.map(({ item }) => (
-                        <BucketItem key={item.id} item={item} />
-                    ))}
-                {/* {filteredItems &&
+            {isLoading ? (
+                <LinksSkeleton />
+            ) : (
+                <div className="flex flex-[3] flex-col h-fit gap-2 mx-auto">
+                    {!inputValue &&
+                        initialItems.bucketItem &&
+                        initialItems.bucketItem.map(item => (
+                            <BucketItem key={item.id} item={item} />
+                        ))}
+                    {filteredItems &&
                         inputValue &&
-                        filteredItems?.suggested && (
-                            <>
-                                <p className="mt-4">Based on your interests</p>
-                                {filteredItems?.suggested?.map(({ item }) => (
-                                    <SuggestedItem key={item.id} item={item} />
-                                ))}
-                            </>
-                        )} */}
-                {!items?.length && (
-                    <Card className="w-full h-[420px] p-4 flex items-center justify-center flex-col gap-8">
-                        <h1 className="text-lg font-bold">No items found.</h1>
-                        <NotFound />
-                    </Card>
-                )}
-            </div>
+                        filteredItems.bucket.map(({ item }) => (
+                            <BucketItem key={item.id} item={item} />
+                        ))}
+                    {!itemsData?.length && (
+                        <Card className="w-full h-[420px] p-4 flex items-center justify-center flex-col gap-8">
+                            <h1 className="text-lg font-bold">
+                                No items found.
+                            </h1>
+                            <NotFound />
+                        </Card>
+                    )}
+                </div>
+            )}
             <div className="fixed bottom-0 w-full z-10 h-24 bg-gradient-to-t from-background to-transparent" />
         </div>
     )

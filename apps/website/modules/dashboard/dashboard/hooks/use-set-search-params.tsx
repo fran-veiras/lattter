@@ -14,7 +14,13 @@ export const useSetSearchParams = () => {
 
             if (selectedTags.includes(value)) {
                 const tags = selectedTags.filter(tag => tag !== value)
-                params.set(name, `${tags}`)
+
+                if (!tags.length) {
+                    params.delete(name)
+                } else {
+                    params.set(name, `${tags}`)
+                }
+
                 return pathname + '?' + params.toString()
             }
 

@@ -48,6 +48,7 @@ export const Browser = ({
     useEffect(() => {
         localStorage.setItem('filters', JSON.stringify(filters))
     }, [filters])
+
     const showClearButton = useMemo(() => {
         return ['tag', 'domain'].some(param => searchParams?.has(param))
     }, [searchParams])
@@ -58,7 +59,9 @@ export const Browser = ({
                 <p>Filter items</p>
                 {showClearButton && (
                     <Button
-                        onClick={() => route.push(pathname)}
+                        onClick={() =>
+                            window.history.pushState(null, '', pathname)
+                        }
                         className="bg-transparent transition-all hover:bg-transparent hover:text-black hover:border-black !p-1 !h-fit text-gray-500 border border-gray-500"
                     >
                         <CircleX

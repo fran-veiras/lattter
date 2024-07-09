@@ -46,8 +46,6 @@ export const LinkFilter = ({
         }
     }
 
-    console.log(filters?.length)
-
     return (
         <fieldset className="overflow-hidden">
             <div className="flex h-8 items-center justify-between">
@@ -102,7 +100,12 @@ export const LinkFilter = ({
                                                             type,
                                                             tag.category ?? tag,
                                                         )
-                                                    route.push(url)
+
+                                                    window.history.pushState(
+                                                        null,
+                                                        '',
+                                                        url,
+                                                    )
                                                 }}
                                                 type="checkbox"
                                                 className="ml-3 h-4 w-4 cursor-pointer rounded-full border-gray-300 text-black focus:outline-none focus:ring-0"
