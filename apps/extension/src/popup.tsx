@@ -41,11 +41,6 @@ function IndexPopup() {
             setUser(USER_STATES.LOADING)
             const sessionParsed = session && JSON.parse(session)
 
-            await sendToBackground({
-                name: 'ping',
-                body: sessionParsed?.user,
-            })
-
             if (sessionParsed && sessionParsed?.access_token) {
                 if (sessionParsed?.user) {
                     setUser(sessionParsed?.user)

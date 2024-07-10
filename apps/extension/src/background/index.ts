@@ -1,6 +1,8 @@
 import { Storage } from '@plasmohq/storage'
+import { createClient } from '@supabase/supabase-js'
 
 import '@plasmohq/messaging/background'
+import { sendToBackground } from '@plasmohq/messaging'
 
 export {}
 
@@ -40,6 +42,20 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
             type: 'popup',
             width: 348,
             height: 400,
+        })
+    }
+
+    const supabase = createClient(
+        process.env.PLASMO_PUBLIC_SUPABASE_URL,
+        process.env.PLASMO_PUBLIC_SUPABASE_KEY,
+    )
+
+    const { error } = await supabase.auth.getUser(sessionParsed?.access_token)
+
+    if (error) {
+        await sendToBackground({
+            name: 'ping',
+            body: sessionParsed?.user,
         })
     }
 
