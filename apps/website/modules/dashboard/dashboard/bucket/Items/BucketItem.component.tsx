@@ -110,7 +110,10 @@ export const BucketItem = ({ item }: { item: IItem }) => {
                     <div className="flex flex-row gap-2 !m-0 items-center">
                         <div>{itemIcon[item.type]}</div>
                         {item.category.map(category => (
-                            <div className="p-1 bg-green-200 !m-0 rounded-md">
+                            <div
+                                key={category}
+                                className="p-1 bg-green-200 !m-0 rounded-md"
+                            >
                                 <p className="text-xs">{category}</p>
                             </div>
                         ))}
@@ -126,15 +129,17 @@ export const BucketItem = ({ item }: { item: IItem }) => {
                         'blur-lg': selected,
                     })}
                 >
-                    <CardDescription className="break-words">
-                        {item.type === 'QUOTE' ? (
-                            <QuoteBlock content={item.content} />
-                        ) : item?.content && item?.content?.[0].length > 1 ? (
+                    {item.type === 'QUOTE' ? (
+                        <QuoteBlock content={item.content} />
+                    ) : item?.content && item?.content?.[0].length > 1 ? (
+                        <CardDescription className="break-words">
                             item.content
-                        ) : (
+                        </CardDescription>
+                    ) : (
+                        <CardDescription className="break-words">
                             item.link
-                        )}
-                    </CardDescription>
+                        </CardDescription>
+                    )}
                 </CardContent>
             </div>
         </Card>

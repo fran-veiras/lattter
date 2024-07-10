@@ -34,13 +34,11 @@ export default async function RootLayout({
     }
 
     return (
-        <html lang="en" className="h-full bg-gray-50">
-            <body>
-                <Provider user={user} userDetails={userDetails} tokens={tokens}>
-                    <div className="flex flex-col">{children}</div>
-                </Provider>
-                <Analytics />
-            </body>
-        </html>
+        <body>
+            <Provider user={user} userDetails={userDetails} tokens={tokens}>
+                <div className="flex flex-col">{children}</div>
+            </Provider>
+            <Analytics />
+        </body>
     )
 }

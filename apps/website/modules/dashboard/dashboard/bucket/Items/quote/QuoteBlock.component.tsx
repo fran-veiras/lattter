@@ -1,3 +1,4 @@
+import { CardDescription } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import React, { useEffect, useState } from 'react'
 
@@ -16,8 +17,10 @@ export const QuoteBlock = ({ content }: { content: string[] | null }) => {
     return (
         <div>
             {elementsToShow?.map((text, index) => (
-                <div>
-                    <p key={text}>{text}</p>
+                <div key={index}>
+                    <CardDescription className="break-words">
+                        {text}
+                    </CardDescription>
 
                     {seeMore && index + 1 !== content?.length && (
                         <div className="w-full h-4 my-1">
@@ -36,9 +39,9 @@ export const QuoteBlock = ({ content }: { content: string[] | null }) => {
                         setSeeMore(!seeMore)
                     }}
                 >
-                    <p className="text-black py-1">
+                    <CardDescription className="break-words text-black py-1">
                         {seeMore ? 'See less' : 'See more'}
-                    </p>
+                    </CardDescription>
                 </div>
             )}
         </div>
