@@ -101,11 +101,13 @@ export const LinkFilter = ({
                                                             tag.category ?? tag,
                                                         )
 
-                                                    window.history.pushState(
-                                                        null,
-                                                        '',
-                                                        url,
-                                                    )
+                                                    typeof window !==
+                                                        'undefined' &&
+                                                        window.history.pushState(
+                                                            null,
+                                                            '',
+                                                            url,
+                                                        )
                                                 }}
                                                 type="checkbox"
                                                 className="ml-3 h-4 w-4 cursor-pointer rounded-full border-gray-300 text-black focus:outline-none focus:ring-0"

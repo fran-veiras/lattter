@@ -133,11 +133,11 @@ export const BucketItem = ({ item }: { item: IItem }) => {
                         <QuoteBlock content={item.content} />
                     ) : item?.content && item?.content?.[0].length > 1 ? (
                         <CardDescription className="break-words">
-                            item.content
+                            {item.content}
                         </CardDescription>
                     ) : (
                         <CardDescription className="break-words">
-                            item.link
+                            {item.link}
                         </CardDescription>
                     )}
                 </CardContent>
