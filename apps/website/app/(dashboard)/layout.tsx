@@ -26,12 +26,14 @@ export default async function DashboardLayout({
         .single()
 
     return (
-        <body>
-            <link rel="icon" href="/Logo.png" sizes="any" />
+        <html>
+            <body>
+                <link rel="icon" href="/Logo.png" sizes="any" />
 
-            <NavBar userDetails={userDetails} />
-            {children}
-            <Analytics />
-        </body>
+                <NavBar userDetails={userDetails} />
+                {children}
+                <Analytics />
+            </body>
+        </html>
     )
 }

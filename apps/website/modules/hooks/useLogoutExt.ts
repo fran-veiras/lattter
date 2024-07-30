@@ -5,9 +5,7 @@ export const useLoginOutExt = () => {
     async function sendMessageToPopup() {
         try {
             const resp = await sendToBackgroundViaRelay({
-                extensionId: process.env.NEXT_PUBLIC_URL?.includes('localhost')
-                    ? 'nogbneadalakcefjdejijcdaaahljpah'
-                    : 'feikcccicoogbafccdjmgdkffhimekek',
+                extensionId: process.env.NEXT_PUBLIC_EXTENSION_ID,
                 // @ts-ignore
                 name: 'ping',
                 body: 'not_auth',

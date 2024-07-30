@@ -35,6 +35,8 @@ export const NavBar = ({ userDetails }: { userDetails: any }) => {
     const { user } = useContext(UserDataContext)
     const path = usePathname()
 
+    if (path.includes('/connect')) return null
+
     return (
         <nav className="bg-white shadow sticky left-0 top-0 z-30 w-full">
             <div className="w-11/12 xl:w-4/5 2xl:w-3/5 mx-auto px-2">

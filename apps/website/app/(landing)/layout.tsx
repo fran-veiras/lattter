@@ -1,8 +1,6 @@
 import '../globals.css'
 
 import { Analytics } from '@vercel/analytics/react'
-import supabaseServer from '../api/supabaseServer'
-import { Provider } from '@/components/provider'
 import { NavBar } from 'modules/landing/components/navbar/NavBar'
 
 export const metadata = {
