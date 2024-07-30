@@ -32,13 +32,14 @@ export const useLoginInExt = async ({
             }, 10000)
 
             sendToBackgroundViaRelay({
-                extensionId: process.env.NEXT_PUBLIC_EXTENSION_ID,
+                // extensionId: process.env.NEXT_PUBLIC_EXTENSION_ID,
                 // @ts-ignore
                 name: 'ping',
                 body: userData,
             })
                 .then(res => {
                     clearTimeout(timeoutHandler)
+                    console.log('llega', res)
                     resolve(res)
                 })
                 .catch(error => {
@@ -51,11 +52,12 @@ export const useLoginInExt = async ({
         })
     }
 
-    async function sendCredentialsToExtension() {
+    async function sendMessageToPopup() {
         try {
-            const response = await connectExtension()
+            const resp = await connectExtension()
 
-            return response
+            console.log('res', resp)
+            return resp
         } catch (error) {
             console.error('Error:', error)
             return {
@@ -65,5 +67,5 @@ export const useLoginInExt = async ({
         }
     }
 
-    return await sendCredentialsToExtension()
+    return await sendMessageToPopup()
 }
