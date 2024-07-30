@@ -1,6 +1,5 @@
 import { NavBar } from 'modules/dashboard/navbar/NavBar'
 import '../globals.css'
-import { Analytics } from '@vercel/analytics/react'
 import supabaseServer from '@/api/supabaseServer'
 
 export const metadata = {
@@ -29,10 +28,8 @@ export default async function DashboardLayout({
         <html>
             <body>
                 <link rel="icon" href="/Logo.png" sizes="any" />
-
                 <NavBar userDetails={userDetails} />
                 {children}
-                <Analytics />
             </body>
         </html>
     )

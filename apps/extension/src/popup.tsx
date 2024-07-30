@@ -7,8 +7,6 @@ import '~style.css'
 
 import { Loader } from 'lucide-react'
 
-import { sendToBackground } from '@plasmohq/messaging'
-
 import { Button } from '~components/AnimatedButton'
 import { RetroGrid } from '~components/RetroGrid'
 

@@ -1,6 +1,5 @@
 import { NavBar } from 'modules/landing/components/navbar/NavBar'
 import '../globals.css'
-import { Analytics } from '@vercel/analytics/react'
 
 export const metadata = {
     title: 'Lattter — your research copilot',
@@ -14,11 +13,12 @@ export default function RootLayout({
     children: React.ReactNode
 }) {
     return (
-        <body>
-            <link rel="icon" href="/Logo.png" sizes="any" />
-            <NavBar />
-            <div className="flex flex-col">{children}</div>
-            <Analytics />
-        </body>
+        <html>
+            <body>
+                <link rel="icon" href="/Logo.png" sizes="any" />
+                <NavBar />
+                <div className="flex flex-col">{children}</div>
+            </body>
+        </html>
     )
 }

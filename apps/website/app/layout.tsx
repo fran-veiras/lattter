@@ -1,6 +1,5 @@
 import './globals.css'
 
-import { Analytics } from '@vercel/analytics/react'
 import { Provider } from 'modules/components/provider'
 import supabaseServer from '@/api/supabaseServer'
 
@@ -38,7 +37,6 @@ export default async function RootLayout({
             <Provider user={user} userDetails={userDetails} tokens={tokens}>
                 <div className="flex flex-col">{children}</div>
             </Provider>
-            <Analytics />
         </body>
     )
 }

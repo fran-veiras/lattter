@@ -23,16 +23,8 @@ export const useLoginInExt = async ({
         return new Promise((resolve, reject) => {
             let timeoutHandler: NodeJS.Timeout
 
-            timeoutHandler = setTimeout(() => {
-                resolve({
-                    code: 'NOT_INSTALLED',
-                    message:
-                        'Make sure you have the extension installed correctly.',
-                })
-            }, 10000)
-
             sendToBackgroundViaRelay({
-                // extensionId: process.env.NEXT_PUBLIC_EXTENSION_ID,
+                extensionId: process.env.NEXT_PUBLIC_EXTENSION_ID,
                 // @ts-ignore
                 name: 'ping',
                 body: userData,

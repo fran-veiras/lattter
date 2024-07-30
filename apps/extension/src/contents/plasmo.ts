@@ -15,15 +15,12 @@ export const config: PlasmoCSConfig = {
         'https://www.lattter.com/*',
     ],
 }
-
-async function name() {
-    const auth = await sendToBackground({
+;async () => {
+    await sendToBackground({
         name: 'ping',
         body: null,
     })
 }
-
-name()
 
 // Bookmark icon for major social media platforms.
 const addSaveButton = async () => {

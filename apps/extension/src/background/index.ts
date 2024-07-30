@@ -52,7 +52,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
 
     const { error } = await supabase.auth.getUser(sessionParsed?.access_token)
 
-    if (error) {
+    if (error && session !== 'not_auth') {
         await sendToBackground({
             name: 'ping',
             body: sessionParsed?.user,
