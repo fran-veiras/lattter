@@ -20,6 +20,7 @@ import { useRouter } from 'next/navigation'
 import XIcon from 'public/icons/XIcon'
 import React, { useState } from 'react'
 import { QuoteBlock } from './quote/QuoteBlock.component'
+import Image from 'next/image'
 
 export const BucketItem = ({ item }: { item: IItem }) => {
     const [selected, setSelected] = useState(false)
@@ -43,7 +44,9 @@ export const BucketItem = ({ item }: { item: IItem }) => {
         QUOTE: <Quote width={18} height={18} />,
     }
 
-    // word-break: break-word;
+    const favicon =
+        item?.link &&
+        `https://www.google.com/s2/favicons?sz=32&domain_url=${new URL(item?.link).origin}`
 
     return (
         <Card
@@ -108,7 +111,19 @@ export const BucketItem = ({ item }: { item: IItem }) => {
                     )}
                 >
                     <div className="flex flex-row gap-2 !m-0 items-center">
-                        <div>{itemIcon[item.type]}</div>
+                        <div>
+                            {favicon ? (
+                                <Image
+                                    className="rounded-full"
+                                    alt=""
+                                    src={favicon}
+                                    width={24}
+                                    height={24}
+                                />
+                            ) : (
+                                itemIcon[item.type]
+                            )}
+                        </div>
                         {item.category.map(category => (
                             <div
                                 key={category}
