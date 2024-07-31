@@ -15,10 +15,6 @@ import { CircleX } from 'lucide-react'
 
 const defaultFilters = [
     {
-        value: 'hide_suggestion',
-        label: 'Hide suggestions',
-    },
-    {
         value: 'hide_quotes',
         label: 'Hide quotes',
     },
@@ -54,7 +50,7 @@ export const Browser = ({
     }, [searchParams])
 
     return (
-        <Card className="flex-[1] h-fit p-4 flex flex-col gap-2">
+        <Card className="flex-[1] min-w-[280px] h-fit p-4 flex flex-col gap-2">
             <CardHeader className="!p-0 flex flex-row items-center justify-between">
                 <p>Filter items</p>
                 {showClearButton && (

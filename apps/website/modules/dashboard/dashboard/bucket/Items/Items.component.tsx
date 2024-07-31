@@ -9,7 +9,7 @@ import { useSearchParams } from 'next/navigation'
 import { Card } from '@/components/ui/card'
 import NotFound from 'public/icons/NotFound'
 import { UserDataContext } from '@/components/provider'
-import Loading, { LinksSkeleton } from 'app/(dashboard)/dashboard/loading'
+import { LinksSkeleton } from 'app/(dashboard)/dashboard/loading'
 
 interface IFilteredItems {
     bucket: FuseResult<IItem>[]
@@ -116,7 +116,7 @@ export const Items = ({
     }
 
     const initialItems = getInitialItems()
-    const domains = folders?.map(item => `${item.name}.com`)
+    const domains = folders?.map(item => `${item.name}`)
 
     useEffect(() => {
         setIsLoading(true)

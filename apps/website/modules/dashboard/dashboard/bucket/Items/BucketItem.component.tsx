@@ -17,7 +17,6 @@ import {
 import { IItem } from 'modules/models/folder.interface'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import LogoComponent from 'public/Logo.component'
 import XIcon from 'public/icons/XIcon'
 import React, { useState } from 'react'
 import { QuoteBlock } from './quote/QuoteBlock.component'
@@ -44,14 +43,15 @@ export const BucketItem = ({ item }: { item: IItem }) => {
         QUOTE: <Quote width={18} height={18} />,
     }
 
+    // word-break: break-word;
+
     return (
         <Card
             onClick={() => {
                 setSelected(!selected)
             }}
-            className={cn(
-                'relative flex flex-row gap-4 flex-grow !border-none !bg-transparent !shadow-none transition-all cursor-pointer',
-            )}
+            style={{ wordBreak: 'break-word' }}
+            className="relative flex flex-row gap-4 break-words flex-grow !border-none !bg-transparent !shadow-none transition-all cursor-pointer"
         >
             <div className="flex flex-col gap-2 bg-white border relative overflow-hidden border-gray-200 min-w-[80%] rounded-lg p-2">
                 {selected && (

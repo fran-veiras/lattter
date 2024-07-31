@@ -70,10 +70,15 @@ function IndexPopup() {
 
                 const urlParts = url.split('//')
                 if (urlParts.length > 1) {
-                    const domain = urlParts[1].split('/')[0]
-                    const mainDomain = domain.split('.').slice(-2).join('.')
-                    return mainDomain.split('.')[0]
+                    const domain = new URL(url)
+                    const host = domain.host
+                    const hostname = host.startsWith('www.')
+                        ? host.slice(4)
+                        : host
+
+                    return hostname
                 }
+
                 return url
             }
 

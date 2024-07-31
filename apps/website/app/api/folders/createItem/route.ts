@@ -49,15 +49,18 @@ export async function POST(request: NextRequest) {
 
             if (error) {
                 throw new LattterApiError({
-                    code: error.code,
-                    message: error.message,
+                    code: error?.code,
+                    message: error?.message,
                 })
             }
 
             folderId = data[0].id
         }
 
-        const categories = await categorization(item?.content)
+        const contentToCategorize = item?.content?.length
+            ? item?.conten
+            : item.link
+        const categories = await categorization(contentToCategorize)
 
         const formattedString = categories && categories.replace(/'/g, '"')
         const category = formattedString && JSON.parse(formattedString)
@@ -67,7 +70,7 @@ export async function POST(request: NextRequest) {
             link: item.link,
             user_id: user?.id,
             content: [item?.content],
-            category: category.filter((cat: string) =>
+            category: category?.filter((cat: string) =>
                 itemCategories.includes(cat),
             ),
             type: item.type,

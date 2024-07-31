@@ -1,7 +1,7 @@
 {
     "name": "lattter-extension",
     "displayName": "Lattter — Your AI cross-platform bookmark",
-    "version": "0.0.5",
+    "version": "0.0.7",
     "description": "lattter co-pilot",
     "author": "fveiras",
     "packageManager": "pnpm@8.15.1",
