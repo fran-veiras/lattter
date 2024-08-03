@@ -85,7 +85,7 @@ const AnchorTypePrinter: FC<PlasmoCSUIProps> = ({ anchor }) => {
                     margin: '4px',
                 }}
             >
-                <img src={Logo} width={'18px'} height={'18px'} />
+                <img alt="" src={Logo} width={'18px'} height={'18px'} />
             </div>
         </span>
     ) : null

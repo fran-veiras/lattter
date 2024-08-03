@@ -35,10 +35,11 @@ const addSaveButton = async () => {
     // Returns all saved items. It's important to know what you have previously saved.
     const savedItems = await storage.get('saved-items')
 
-    let savedItemsParsed = savedItems ? JSON.parse(savedItems) : []
+    const savedItemsParsed = savedItems ? JSON.parse(savedItems) : []
 
     // Applies the bookmark icon to all found tweets.
-    tweets.forEach(async tweet => {
+
+    for (const tweet of tweets) {
         // If the tweet element doesn't have the bookmark, it applies.
         if (!tweet.querySelector('.save-button')) {
             // Section to apply the bookmark.
@@ -161,7 +162,7 @@ const addSaveButton = async () => {
                 }
             }
         }
-    })
+    }
 }
 addSaveButton()
 

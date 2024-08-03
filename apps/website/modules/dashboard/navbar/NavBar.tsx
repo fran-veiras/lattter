@@ -31,7 +31,7 @@ function Team({ name }: { name: string }) {
     )
 }
 
-export const NavBar = ({ userDetails }: { userDetails: any }) => {
+export const NavBar = ({ userDetails }: { userDetails: { name: string } }) => {
     const { user } = useContext(UserDataContext)
     const path = usePathname()
 

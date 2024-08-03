@@ -21,17 +21,17 @@ export const useSetSearchParams = () => {
                     params.set(name, `${tags}`)
                 }
 
-                return pathname + '?' + params.toString()
+                return `${pathname}?${params.toString()}`
             }
 
             if (selectedTags.length) {
                 const prev = selectedTags.toString()
                 params.set(name, `${prev},${value}`)
-                return pathname + '?' + params.toString()
+                return `${pathname}?${params.toString()}`
             }
 
             params.set(name, value)
-            return pathname + '?' + params.toString()
+            return `${pathname}?${params.toString()}`
         },
         [searchParams],
     )

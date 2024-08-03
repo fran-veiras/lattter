@@ -4,6 +4,8 @@ import { createClient } from '@supabase/supabase-js'
 import '@plasmohq/messaging/background'
 import { sendToBackground } from '@plasmohq/messaging'
 
+// biome-ignore lint/style/useExportType: reserved word
+// biome-ignore lint/complexity/noUselessEmptyExport: <explanation>
 export {}
 
 console.log(
@@ -12,12 +14,12 @@ console.log(
 
 // status of savingItem action
 function sendStatus(status: string | boolean, href: string) {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
         chrome.tabs.sendMessage(
             tabs[0].id,
             { action: 'savingItem', status, href },
-            function (response) {
-                if (response.type == 'success') {
+            response => {
+                if (response.type === 'success') {
                     console.log('Saving status open')
                 }
             },
@@ -64,7 +66,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
 
     if (request.action === 'saveItem') {
         try {
-            let cleanedLink = content.href.replace(/"/g, '')
+            const cleanedLink = content.href.replace(/"/g, '')
 
             if (sessionParsed?.access_token) {
                 // status of save item process

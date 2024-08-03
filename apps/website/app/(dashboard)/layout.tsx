@@ -25,7 +25,7 @@ export default async function DashboardLayout({
         .single()
 
     return (
-        <html>
+        <html lang="en">
             <body>
                 <link rel="icon" href="/Logo.png" sizes="any" />
                 <NavBar userDetails={userDetails} />

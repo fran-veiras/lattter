@@ -42,8 +42,8 @@ export async function GET(request: NextRequest) {
         return new Response(responseData, {
             status: 200,
         })
-    } catch (err: any) {
-        console.error('ERROR:', err.message)
+    } catch (err) {
+        if (err instanceof Error) console.error('ERROR:', err.message)
         return new Response('ERROR', { status: 500 })
     }
 }

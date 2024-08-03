@@ -21,9 +21,9 @@ export async function seenItem(id: number, seen: number) {
     if (error) {
         console.error('Error updating item:', error)
         return false
-    } else {
-        return true
     }
+
+    return true
 }
 
 export async function finishItem(id: number, finished: boolean) {
@@ -38,9 +38,9 @@ export async function finishItem(id: number, finished: boolean) {
     if (error) {
         console.error('Error updating item:', error)
         return false
-    } else {
-        return true
     }
+
+    return true
 }
 
 export async function showArchivedItems(showArchived: boolean) {
@@ -58,7 +58,7 @@ export async function showArchivedItems(showArchived: boolean) {
     if (error) {
         console.error('Error updating user:', error)
         return false
-    } else {
-        return true
     }
+
+    return true
 }

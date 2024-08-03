@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 import { usePathname, useRouter } from 'next/navigation'
 
 export const SignIn = () => {
-    const router: any = usePathname()
+    const router = usePathname()
     const route = useRouter()
     return (
         <Button

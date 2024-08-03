@@ -16,7 +16,7 @@ interface IProps {
 export const AccessToApp = ({ type_of_mode }: IProps) => {
     const router = useRouter()
 
-    const supabase = createClientComponentClient<any>()
+    const supabase = createClientComponentClient()
     const accessWithFacebook = async () => {
         await supabase.auth.signInWithOAuth({
             provider: 'facebook',

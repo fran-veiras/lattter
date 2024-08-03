@@ -1,8 +1,12 @@
 'use client'
 import { usePathname } from 'next/navigation'
 
+type RouteIndicator = {
+    [key: string]: string
+}
+
 export const Indicator = () => {
-    const routes: any = {
+    const routes: RouteIndicator = {
         '/': 'translate-x-[-20px]',
         '/forBusiness': 'translate-x-[72px]',
         '/manifesto': 'translate-x-[176px]',
@@ -12,13 +16,13 @@ export const Indicator = () => {
         '/dashboard': '!hidden',
     }
 
-    const router: any = usePathname()
+    const router = usePathname()
 
     return (
         <div
             className={`absolute left-0 slide bottom-[-1px] w-[85px] h-[2px] bg-gradient-flash ${
                 routes[router] ?? ''
             }`}
-        ></div>
+        />
     )
 }

@@ -1,12 +1,12 @@
 import * as React from 'react'
-const NotFound = (props: any) => (
+const NotFound = () => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width={220}
         height={157}
         fill="none"
-        {...props}
     >
+        <title id="svgTitle">Not found</title>
         <g clipPath="url(#a)">
             <path
                 stroke="#010101"

@@ -6,6 +6,7 @@ const openai = new OpenAI({
 })
 
 export async function categorization(content: string) {
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     const messages: any = [
         {
             role: 'system',
@@ -28,7 +29,7 @@ Here is an example output Javascript Array, Not string:
 
     if (response.choices) {
         return response.choices[0].message.content
-    } else {
-        return 'None'
     }
+
+    return 'None'
 }

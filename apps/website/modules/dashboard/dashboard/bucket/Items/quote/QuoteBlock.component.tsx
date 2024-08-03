@@ -17,6 +17,7 @@ export const QuoteBlock = ({ content }: { content: string[] | null }) => {
     return (
         <div>
             {elementsToShow?.map((text, index) => (
+                // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
                 <div key={index}>
                     <CardDescription className="break-words">
                         {text}

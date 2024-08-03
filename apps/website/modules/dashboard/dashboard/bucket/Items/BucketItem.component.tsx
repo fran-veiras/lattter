@@ -14,7 +14,7 @@ import {
     Quote,
     SquareArrowOutUpRight,
 } from 'lucide-react'
-import { IItem } from 'modules/models/folder.interface'
+import type { IItem } from 'modules/models/folder.interface'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import XIcon from 'public/icons/XIcon'

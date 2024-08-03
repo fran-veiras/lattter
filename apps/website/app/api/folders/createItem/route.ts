@@ -4,7 +4,6 @@ import { categorization } from './categorization/categorizationAi'
 import { itemCategories } from './categorization/categories'
 import { createItem } from '@/lib/zod/schemas/items'
 import { LattterApiError } from '@/api/errors'
-import { error } from 'console'
 
 export async function POST(request: NextRequest) {
     const requestBodyText = await request.text()
@@ -26,7 +25,7 @@ export async function POST(request: NextRequest) {
             return new Response('Unauthorized', { status: 401 })
         }
 
-        let folderId
+        let folderId: string
 
         const { data: folder } = await supabase
             .from('folders')
@@ -58,11 +57,12 @@ export async function POST(request: NextRequest) {
         }
 
         const contentToCategorize = item?.content?.length
-            ? item?.conten
-            : item.link
+            ? item?.content
+            : item?.link
+
         const categories = await categorization(contentToCategorize)
 
-        const formattedString = categories && categories.replace(/'/g, '"')
+        const formattedString = categories?.replace(/'/g, '"')
         const category = formattedString && JSON.parse(formattedString)
 
         const itemData = createItem.parse({
@@ -106,6 +106,7 @@ export async function POST(request: NextRequest) {
         }
 
         if (Array.isArray(category)) {
+            // biome-ignore lint/complexity/noForEach: <explanation>
             category.forEach(async cat => {
                 const categoryData = {
                     category: cat,
@@ -154,8 +155,8 @@ export async function POST(request: NextRequest) {
         return new Response('Item created', {
             status: 200,
         })
-    } catch (err: any) {
-        console.error('ERROR:', err.message)
+    } catch (err) {
+        if (err instanceof Error) console.error('ERROR:', err?.message)
         return new Response('ERROR', { status: 500 })
     }
 }
