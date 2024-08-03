@@ -9,9 +9,9 @@ import React, {
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 import { useLoginInExt } from 'modules/hooks/useLoginInExt'
 import { useLoginOutExt } from 'modules/hooks/useLogoutExt'
-import type { ISupabaseSession } from 'modules/models/session.model'
+import type { User } from '@supabase/supabase-js'
 interface UserDataContextType {
-    user: ISupabaseSession | null
+    user: User | null
     userDetails: { name: string } | null
     tokens: {
         access_token: string | undefined
@@ -32,7 +32,7 @@ export const Provider = ({
     tokens,
 }: {
     children: ReactNode
-    user: ISupabaseSession | null
+    user: User | null
     userDetails: { name: string }
     tokens: {
         access_token: string | undefined

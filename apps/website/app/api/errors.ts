@@ -76,7 +76,7 @@ export class LattterApiError extends Error {
         message,
         docUrl,
     }: {
-        code: z.infer<typeof ErrorCode>
+        code: string
         message: string
         docUrl?: string
     }) {
