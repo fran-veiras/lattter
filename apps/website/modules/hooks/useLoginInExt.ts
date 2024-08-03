@@ -16,48 +16,20 @@ export const useLoginInExt = async ({
         time: `${moment()}`,
     }
 
-    async function connectExtension(): Promise<{
-        message: string
-        code: string
-    }> {
-        return new Promise((resolve, reject) => {
-            let timeoutHandler: NodeJS.Timeout
-
-            sendToBackgroundViaRelay({
+    async function sendMessageToPopup() {
+        try {
+            const resp = await sendToBackgroundViaRelay({
                 extensionId: process.env.NEXT_PUBLIC_EXTENSION_ID,
                 // @ts-ignore
                 name: 'ping',
                 body: userData,
             })
-                .then(res => {
-                    clearTimeout(timeoutHandler)
-                    console.log('llega', res)
-                    resolve(res)
-                })
-                .catch(error => {
-                    clearTimeout(timeoutHandler)
-                    resolve({
-                        code: 'NOT_INSTALLED',
-                        message: 'The extension is not installed.',
-                    })
-                })
-        })
-    }
-
-    async function sendMessageToPopup() {
-        try {
-            const resp = await connectExtension()
 
             console.log('res', resp)
-            return resp
         } catch (error) {
-            console.error('Error:', error)
-            return {
-                code: 'NOT_INSTALLED',
-                message: 'The extension is not installed.',
-            }
+            console.log('err', error)
         }
     }
 
-    return await sendMessageToPopup()
+    sendMessageToPopup()
 }

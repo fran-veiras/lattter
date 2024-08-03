@@ -4,6 +4,8 @@ import React, {
     createContext,
     type ReactNode,
     useEffect,
+    useLayoutEffect,
+    useMemo,
     useState,
 } from 'react'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
@@ -42,10 +44,10 @@ export const Provider = ({
     const [queryClient] = useState(() => new QueryClient())
 
     useEffect(() => {
-        if (tokens.access_token) {
-            useLoginInExt({ tokens })
+        if (tokens?.access_token) {
+            const res = useLoginInExt({ tokens })
         } else {
-            useLoginOutExt()
+            const res = useLoginOutExt()
         }
     }, [tokens])
 
