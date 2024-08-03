@@ -18,7 +18,9 @@ export const ConnectExtension = () => {
         const connectExtension = async () => {
             if (tokens.access_token) {
                 const connect: { message: string; code: string } =
-                    await useLoginInExt({ tokens })
+                    await useLoginInExt({
+                        tokens,
+                    })
 
                 console.log('res', connect)
 

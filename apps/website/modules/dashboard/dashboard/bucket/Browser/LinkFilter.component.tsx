@@ -2,7 +2,7 @@ import { ChevronRight } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ITags } from 'modules/models/folder.interface'
+import type { ITags } from 'modules/models/folder.interface'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { useSetSearchParams } from '../../hooks/use-set-search-params'
@@ -23,9 +23,7 @@ export const LinkFilter = ({
     const createQueryString = useSetSearchParams()
     const [filters, setFilters] = useState(tags || domains)
 
-    const [collapsed, setCollapsed] = useState(
-        selectedTags.length ? false : true,
-    )
+    const [collapsed, setCollapsed] = useState(!selectedTags.length)
     const route = useRouter()
     const [showMore, setShowMore] = useState(false)
 
@@ -50,6 +48,7 @@ export const LinkFilter = ({
         <fieldset className="overflow-hidden">
             <div className="flex h-8 items-center justify-between">
                 <button
+                    type="button"
                     onClick={() => {
                         setCollapsed(!collapsed)
                     }}
@@ -82,6 +81,7 @@ export const LinkFilter = ({
                         {filters ? (
                             filters
                                 .slice(0, showMore ? 20 : 5)
+                                // biome-ignore lint/suspicious/noExplicitAny: <explanation>
                                 .map((tag: any) => {
                                     return (
                                         <div

@@ -18,7 +18,7 @@ import LogoComponent from 'public/Logo.component'
 import { useContext } from 'react'
 
 export const UserMenu = ({ privateRoute }: { privateRoute: boolean }) => {
-    const supabase = createClientComponentClient<any>()
+    const supabase = createClientComponentClient()
     const { user } = useContext(UserDataContext)
     const route = useRouter()
 

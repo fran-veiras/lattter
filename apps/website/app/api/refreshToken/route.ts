@@ -28,8 +28,8 @@ export async function POST(request: NextRequest) {
         } else {
             return new Response('ERROR: need refresh token', { status: 500 })
         }
-    } catch (err: any) {
-        console.error('ERROR:', err.message)
+    } catch (err) {
+        if (err instanceof Error) console.error('ERROR:', err.message)
         return new Response('ERROR', { status: 500 })
     }
 }

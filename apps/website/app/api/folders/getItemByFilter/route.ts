@@ -35,9 +35,7 @@ export async function GET(request: NextRequest) {
 
         if (params.tag && params.tag.length > 0) {
             const tags = params.tag.split(',')
-            const orFilter = tags
-                .map((tag: any) => `category.cs.{${tag}}`)
-                .join(',')
+            const orFilter = tags.map(tag => `category.cs.{${tag}}`).join(',')
 
             query = query.or(orFilter)
         }
@@ -46,7 +44,7 @@ export async function GET(request: NextRequest) {
             const domains = params.domain.split(',')
             console.log('aaa', domains)
             const orFilter = domains
-                .map((domain: any) => `link.ilike.%${domain}%`)
+                .map(domain => `link.ilike.%${domain}%`)
                 .join(',')
 
             query = query.or(orFilter)
@@ -59,7 +57,7 @@ export async function GET(request: NextRequest) {
         const { data: items, error } = await query
 
         return NextResponse.json(items, { status: 200 })
-    } catch (err: any) {
+    } catch (err) {
         return handleAndReturnErrorResponse(err)
     }
 }

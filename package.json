@@ -1,16 +1,17 @@
 {
-  "name": "the-best-monorepo",
-  "version": "0.1.0",
-  "private": true,
-  "packageManager": "pnpm@8.15.1",
-  "devDependencies": {
-    "prettier": "^3.2.5",
-    "turbo": "^2.0.6"
-  },
-  "scripts": {
-    "dev": "turbo dev"
-  },
-  "dependencies": {
-    "@supabase/supabase-js": "2.43.4"
-  }
+    "name": "the-best-monorepo",
+    "version": "0.1.0",
+    "private": true,
+    "packageManager": "pnpm@8.15.1",
+    "devDependencies": {
+        "@biomejs/biome": "1.8.3",
+        "prettier": "^3.2.5",
+        "turbo": "^2.0.6"
+    },
+    "scripts": {
+        "dev": "turbo dev"
+    },
+    "dependencies": {
+        "@supabase/supabase-js": "2.43.4"
+    }
 }

@@ -1,10 +1,10 @@
 'use client'
-import Fuse, { FuseResult } from 'fuse.js'
-import { IFolder, IItem, ITags } from 'modules/models/folder.interface'
+import Fuse, { type FuseResult } from 'fuse.js'
+import type { IFolder, IItem, ITags } from 'modules/models/folder.interface'
 import React, { useContext, useEffect, useState, Suspense } from 'react'
 import { BucketItem } from './BucketItem.component'
 import { Browser } from '../Browser/Browser.component'
-import { IFeedItem } from 'modules/models/feed.interface'
+import type { IFeedItem } from 'modules/models/feed.interface'
 import { useSearchParams } from 'next/navigation'
 import { Card } from '@/components/ui/card'
 import NotFound from 'public/icons/NotFound'
@@ -45,10 +45,9 @@ export const Items = ({
     // need refactor
     useEffect(() => {
         if (itemsData && inputValue && inputValue.length) {
-            const itemsToSearch =
-                filters && filters?.includes('hide_quotes')
-                    ? itemsData.filter(item => item.type !== 'QUOTE')
-                    : itemsData
+            const itemsToSearch = filters?.includes('hide_quotes')
+                ? itemsData.filter(item => item.type !== 'QUOTE')
+                : itemsData
 
             const fuse = new Fuse(itemsToSearch, {
                 keys: ['content', 'link', 'category'],
@@ -96,15 +95,13 @@ export const Items = ({
                 ? itemsData.filter(item => item.type !== 'QUOTE')
                 : itemsData
 
-        const bucketItem =
-            itemsToSearch &&
-            itemsToSearch
-                .sort(
-                    (a, b) =>
-                        new Date(b.created_at).getTime() -
-                        new Date(a.created_at).getTime(),
-                )
-                .slice(0, 5)
+        const bucketItem = itemsToSearch
+            ?.sort(
+                (a, b) =>
+                    new Date(b.created_at).getTime() -
+                    new Date(a.created_at).getTime(),
+            )
+            .slice(0, 5)
 
         const feedItem =
             Array.isArray(filters) &&

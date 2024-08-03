@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
             })
         }
 
-        const messages: any = [
+        const messages: { role: string; content: string }[] = [
             {
                 role: 'system',
                 content:
@@ -37,6 +37,7 @@ export async function POST(request: NextRequest) {
 
         const response = await openai.chat.completions.create({
             model: 'gpt-4o',
+            // @ts-ignore
             messages: messages,
             max_tokens: 300,
         })
@@ -47,8 +48,8 @@ export async function POST(request: NextRequest) {
                 status: 200,
             },
         )
-    } catch (err: any) {
-        console.error('ERROR:', err.message)
+    } catch (err) {
+        if (err instanceof Error) console.error('ERROR:', err.message)
         return new Response('ERROR', { status: 500 })
     }
 }

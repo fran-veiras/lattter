@@ -39,27 +39,15 @@
             "https://twitter.com/*"
         ],
         "externally_connectable": {
-            "matches": [
-                "http://localhost:3000/*",
-                "https://lattter.com/*"
-            ]
+            "matches": ["http://localhost:3000/*", "https://lattter.com/*"]
         },
         "web_accessible_resources": [
             {
-                "resources": [
-                    "options.html"
-                ],
-                "matches": [
-                    "<all_urls>"
-                ],
-                "extension_ids": [
-                    "$CRX_ID"
-                ]
+                "resources": ["options.html"],
+                "matches": ["<all_urls>"],
+                "extension_ids": ["$CRX_ID"]
             }
         ],
-        "permissions": [
-            "storage",
-            "tabs"
-        ]
+        "permissions": ["storage", "tabs"]
     }
 }

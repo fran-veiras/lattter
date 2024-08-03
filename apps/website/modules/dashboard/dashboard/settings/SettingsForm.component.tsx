@@ -13,7 +13,7 @@ import { submitData } from 'app/(dashboard)/dashboard/settings/actions'
 import { Loader } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import React, { FormEvent, useContext, useState } from 'react'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { useForm, type SubmitHandler } from 'react-hook-form'
 
 type Inputs = {
     name: string
@@ -71,7 +71,7 @@ export const SettingsForm = () => {
                 </div>
             </CardContent>
             <CardFooter>
-                <Button disabled={errors?.name ? true : false} type="submit">
+                <Button disabled={!!errors?.name} type="submit">
                     {loading && (
                         <Loader
                             strokeWidth="1px"

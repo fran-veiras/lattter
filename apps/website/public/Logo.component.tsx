@@ -1,5 +1,5 @@
 import * as React from 'react'
-const LogoComponent = (props: any) => (
+const LogoComponent = (props: { width?: number; height?: number }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width={props.width ?? 24}
@@ -8,6 +8,7 @@ const LogoComponent = (props: any) => (
         fill="none"
         {...props}
     >
+        <title>Logo icon</title>
         <mask
             id="a"
             width={80}

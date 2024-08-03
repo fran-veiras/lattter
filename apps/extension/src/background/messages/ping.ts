@@ -25,7 +25,7 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
         })
     }
 
-    let tokens = req?.body
+    const tokens = req?.body
 
     if (!sessionParsed?.access_token && tokens) {
         const {

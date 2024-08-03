@@ -2,7 +2,7 @@ import z from '@/lib/zod'
 import { NextResponse } from 'next/server'
 import { ZodError } from 'zod'
 import { generateErrorMessage } from 'zod-error'
-import { ZodOpenApiResponseObject } from 'zod-openapi'
+import type { ZodOpenApiResponseObject } from 'zod-openapi'
 
 export const ErrorCode = z.enum([
     'bad_request',
@@ -76,7 +76,7 @@ export class LattterApiError extends Error {
         message,
         docUrl,
     }: {
-        code: any
+        code: z.infer<typeof ErrorCode>
         message: string
         docUrl?: string
     }) {
@@ -118,6 +118,7 @@ export function fromZodError(error: ZodError): ErrorResponse {
     }
 }
 
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export function handleApiError(error: any): ErrorResponse & { status: number } {
     console.error('API error occurred', error.message)
 

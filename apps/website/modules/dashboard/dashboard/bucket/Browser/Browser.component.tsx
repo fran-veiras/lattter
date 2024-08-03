@@ -1,11 +1,11 @@
 'use client'
 
-import { Dispatch, SetStateAction } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
 import { Input } from '@/components/ui/input'
 import { Card, CardHeader } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { LinkFilter } from './LinkFilter.component'
-import { ITags } from 'modules/models/folder.interface'
+import type { ITags } from 'modules/models/folder.interface'
 import { Switch } from '@/components/ui/switch'
 import { showArchivedItems } from 'app/actions'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
@@ -121,9 +121,7 @@ export const Browser = ({
                         className="flex flex-row justify-between items-center"
                     >
                         <p>{filter.label}</p>
-                        <Switch
-                            checked={filters && filters.includes(filter.value)}
-                        />
+                        <Switch checked={filters?.includes(filter.value)} />
                     </div>
                 ))}
             </div>

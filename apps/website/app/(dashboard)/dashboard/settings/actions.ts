@@ -17,8 +17,8 @@ export async function submitData(data: { name: string }) {
 
         if (!error) {
             return true
-        } else {
-            return false
         }
+
+        return false
     }
 }

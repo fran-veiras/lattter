@@ -37,8 +37,9 @@ export const WatchDemo = () => {
                 )}
                 {videoModal && (
                     <div className="w-full z-50 h-full left-0 top-0 absolute">
-                        <video width="100%" height="100%" controls autoPlay>
+                        <video width="100%" height="100%" controls>
                             <source src="lattter.mp4" type="video/mp4" />
+                            <track kind="captions" label="English" default />
                             Tu navegador no soporta la etiqueta de video.
                         </video>
                     </div>

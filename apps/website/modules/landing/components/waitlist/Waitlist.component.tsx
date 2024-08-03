@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { FormEvent, useRef, useState } from 'react'
+import { type FormEvent, useRef, useState } from 'react'
 import { Info, Loader } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -159,10 +159,10 @@ export const Waitlist = () => {
                             className="rounded-md my-1 xl:text-sm h-12 w-full"
                             type="submit"
                             disabled={
-                                waitlistInfo.email.length > 0 &&
-                                waitlistInfo.company.length > 0
-                                    ? false
-                                    : true
+                                !(
+                                    waitlistInfo.email.length > 0 &&
+                                    waitlistInfo.company.length > 0
+                                )
                             }
                         >
                             Request access →

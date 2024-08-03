@@ -21,7 +21,7 @@ function IndexPopup() {
     const [currentUrl, setCurrentUrl] = useStorage('current-window-link')
     const [user, setUser] = useState(USER_STATES.LOADING)
     const [savedItems, setSavedItems] = useStorage('saved-items')
-    let savedItemsParsed = savedItems ? JSON.parse(savedItems) : []
+    const savedItemsParsed = savedItems ? JSON.parse(savedItems) : []
 
     useEffect(() => {
         chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
@@ -39,7 +39,7 @@ function IndexPopup() {
             setUser(USER_STATES.LOADING)
             const sessionParsed = session && JSON.parse(session)
 
-            if (sessionParsed && sessionParsed?.access_token) {
+            if (sessionParsed?.access_token) {
                 if (sessionParsed?.user) {
                     setUser(sessionParsed?.user)
                 } else {
@@ -125,7 +125,7 @@ function IndexPopup() {
                     <img
                         src={LattterLogo}
                         className="w-28"
-                        alt="Some pretty cool image"
+                        alt="Lattter logo"
                     />
                 </div>
                 <div className="p-4 w-full h-full">
@@ -179,7 +179,6 @@ function IndexPopup() {
                                 )}
                         </div>
                     )}
-                    <div></div>
                 </div>
             </div>
         </div>
