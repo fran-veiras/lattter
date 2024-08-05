@@ -44,10 +44,8 @@ export const Provider = ({
     const [queryClient] = useState(() => new QueryClient())
 
     useEffect(() => {
-        if (tokens?.access_token) {
-            const res = useLoginInExt({ tokens })
-        } else {
-            const res = useLoginOutExt()
+        if (!tokens?.access_token) {
+            useLoginOutExt()
         }
     }, [tokens])
 

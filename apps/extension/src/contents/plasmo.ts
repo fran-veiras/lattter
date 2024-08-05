@@ -13,6 +13,8 @@ export const config: PlasmoCSConfig = {
         'https://x.com/*',
         'https://twitter.com/*',
         'https://www.lattter.com/*',
+        'http://localhost:3000/dashboard/*',
+        'https://www.lattter.com/dashboard/*',
     ],
 }
 ;async () => {
@@ -21,6 +23,32 @@ export const config: PlasmoCSConfig = {
         body: null,
     })
 }
+
+console.log('Content script loaded on:', window.location.href)
+
+window.addEventListener('message', async event => {
+    console.log('Content script loaded on:', window.location.href)
+
+    if (
+        event.source === window &&
+        event?.data?.direction === 'from-page-script'
+    ) {
+        const res = await sendToBackground({
+            name: 'ping',
+            body: event.data.message,
+        })
+
+        if (res) {
+            window.postMessage(
+                {
+                    direction: 'from-extension',
+                    message: res,
+                },
+                '*',
+            )
+        }
+    }
+})
 
 // Bookmark icon for major social media platforms.
 const addSaveButton = async () => {
