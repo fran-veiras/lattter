@@ -2,7 +2,6 @@
 import { UserDataContext } from '@/components/provider'
 import { Separator } from '@/components/ui/separator'
 import { ExternalLink, Loader, LogIn } from 'lucide-react'
-import { useLoginInExt } from 'modules/hooks/useLoginInExt'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useContext, useEffect, useState } from 'react'
@@ -19,13 +18,13 @@ export const ConnectExtension = () => {
             data: { direction: string; message: { message: string } }
         }) => {
             if (event.data && event.data.direction === 'from-extension') {
-                console.log('Respuesta de la extensión:', event.data.message)
-                // Aquí puedes manejar la respuesta como necesites
-
                 if (event.data.message.message === 'success') {
                     route.push('/dashboard')
                 } else {
-                    setErrorMessage({ code: '500', message: 'algo' })
+                    setErrorMessage({
+                        code: '500',
+                        message: 'Unexpected error',
+                    })
                 }
             }
         }
@@ -33,6 +32,17 @@ export const ConnectExtension = () => {
         window.addEventListener('message', handleExtensionResponse)
 
         const connectExtension = async () => {
+            // biome-ignore lint/style/useConst:
+            let timeoutHandler: NodeJS.Timeout
+
+            timeoutHandler = setTimeout(() => {
+                setErrorMessage({
+                    code: 'NOT_INSTALLED',
+                    message:
+                        'Make sure you have the extension installed correctly.',
+                })
+            }, 10000)
+
             if (tokens.access_token) {
                 console.log('sending message')
                 window.postMessage(

@@ -13,8 +13,6 @@ export const config: PlasmoCSConfig = {
         'https://x.com/*',
         'https://twitter.com/*',
         'https://www.lattter.com/*',
-        'http://localhost:3000/dashboard/*',
-        'https://www.lattter.com/dashboard/*',
     ],
 }
 ;async () => {
@@ -23,8 +21,6 @@ export const config: PlasmoCSConfig = {
         body: null,
     })
 }
-
-console.log('Content script loaded on:', window.location.href)
 
 window.addEventListener('message', async event => {
     console.log('Content script loaded on:', window.location.href)
