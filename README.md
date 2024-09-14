@@ -26,13 +26,13 @@ Lattter is a browser extension that allows you to save your favorite websites as
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/your-username/lattter.git
+    git clone https://github.com/fran-veiras/lattter.git
     cd lattter
     ```
 
 2. Install dependencies:
     ```bash
-    npm install
+    pnpm install
     ```
 
 3. Start the project (both the web app and the extension):
@@ -51,7 +51,7 @@ This project is configured with **Biome** to ensure clean and consistent code. I
 
 - Run linting manually with:
     ```bash
-    npm run lint
+    pnpm run lint
     ```
 
 ## Contributing
