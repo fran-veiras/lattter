@@ -1,6 +1,5 @@
 # Lattter
-
-Lattter is a browser extension that allows you to save your favorite websites as bookmarks and set reminders, so you never forget anything important.
+Lattter is a browser extension that lets you save links and social media posts, helping you keep track of them with reminders so you never lose anything important.
 
 ## Features
 
