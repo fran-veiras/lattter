@@ -188,6 +188,7 @@ const addSaveButton = async () => {
         }
     }
 }
+
 addSaveButton()
 
 // Create a mutation observer to listen for mutations (document.body) such as new tweets or posts.
@@ -195,6 +196,5 @@ const observer = new MutationObserver(addSaveButton)
 observer.observe(document.body, { childList: true, subtree: true })
 
 relayMessage({
-    //@ts-ignore
     name: 'ping',
 })
