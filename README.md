@@ -1,12 +1,6 @@
 # Lattter
 Lattter is a browser extension that lets you save links and social media posts, helping you keep track of them with reminders so you never lose anything important.
 
-## Features
-
-- Save website bookmarks.
-- Create custom reminders.
-- Works as both a Google Chrome extension and a web app.
-
 ## Technologies Used
 
 - **[Turbo Repo](https://turbo.build/)**: Manages the monorepo. Both the extension and the web app are handled under this repo.
